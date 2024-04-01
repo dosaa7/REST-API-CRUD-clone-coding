@@ -94,12 +94,10 @@ public class LibraryService {
     }
 
     public List<String> lendABook (BookLendRequest request) {
-
         Optional<Member> memberForId = memberRepository.findById(request.getMemberId());
         if (!memberForId.isPresent()) {
             throw new EntityNotFoundException("Member not present in the database");
         }
-
         Member member = memberForId.get();
         if (member.getStatus() != MemberStatus.ACTIVE) {
             throw new RuntimeException("User is not active to proceed a lending.");
@@ -125,7 +123,6 @@ public class LibraryService {
                 lend.setDueOn(Instant.now().plus(30, ChronoUnit.DAYS));
                 lendRepository.save(lend);
             }
-
         });
         return booksApprovedToBurrow;
     }
